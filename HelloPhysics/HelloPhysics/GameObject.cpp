@@ -55,7 +55,16 @@ void GameObject::draw()
 {
 	//considerando que possui EBO
 	glBindVertexArray(VAO);
+	
+	shader->setInt("rasterCode", 0);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	shader->setInt("rasterCode", 1);
+	glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, 0);
+
+	shader->setInt("rasterCode", 2);
+	glDrawElements(GL_POINTS, 6, GL_UNSIGNED_INT, 0);
+
 	glBindVertexArray(0);
 }
 

@@ -102,6 +102,31 @@ public:
 	{
 		glUseProgram(this->Program);
 	}
+
+	void setBool(const std::string& name, bool value) const
+	{
+		glUniform1i(glGetUniformLocation(this->Program, name.c_str()), (int)value);
+	}
+	// ------------------------------------------------------------------------
+	void setInt(const std::string& name, int value) const
+	{
+		glUniform1i(glGetUniformLocation(this->Program, name.c_str()), value);
+	}
+	// ------------------------------------------------------------------------
+	void setFloat(const std::string& name, float value) const
+	{
+		glUniform1f(glGetUniformLocation(this->Program, name.c_str()), value);
+	}
+	// ------------------------------------------------------------------------
+	void setVec3(const std::string& name, float v1, float v2, float v3) const
+	{
+		glUniform3f(glGetUniformLocation(this->Program, name.c_str()), v1, v2, v3);
+	}
+	// ------------------------------------------------------------------------
+	void setVec4(const std::string& name, float v1, float v2, float v3, float v4) const
+	{
+		glUniform4f(glGetUniformLocation(this->Program, name.c_str()), v1, v2, v3, v4);
+	}
 };
 
 #endif

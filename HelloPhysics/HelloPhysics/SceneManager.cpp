@@ -4,6 +4,8 @@
 static bool keys[1024];
 static bool resized;
 static GLuint width, height;
+static bool mouseDown, mouseUp, mouseMove;
+static b2Vec2 pw, ps; //ponto em coords mundo e tela 
 
 
 SceneManager::SceneManager()
@@ -18,6 +20,9 @@ void SceneManager::initialize(GLuint w, GLuint h)
 {
 	width = w;
 	height = h;
+
+	mouseDown = false;
+	mouseUp = false;
 	
 	//Inicializando o gerenciador da Física do mundo
 	physics = new PhysicsManager;
@@ -44,6 +49,8 @@ void SceneManager::initializeGraphics()
 
 	// Set the required callback functions
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetMouseButtonCallback(window, MouseButtonCallback);
+	glfwSetCursorPosCallback(window, MouseMotionCallback);
 
 	//Setando a callback de redimensionamento da janela
 	glfwSetWindowSizeCallback(window, resize);
@@ -56,7 +63,17 @@ void SceneManager::initializeGraphics()
 	}
 
 	// Build and compile our shader program
-	addShader("../shaders/transformations.vs", "../shaders/transformations.frag");
+	addShader("../shaders/simpleRenderer.vs", "../shaders/simpleRenderer.frag");
+	shader->Use();
+	
+	//Valores iniciais
+	shader->setInt("rasterCode", 0); //padrão preencher
+	shader->setVec4("fillColor", 1.0, 0.0, 1.0, 1.0);
+	shader->setVec4("contourColor", 0.0, 0.0, 0.0, 1.0);
+	shader->setVec4("pointColor", 0.0, 1.0, 1.0, 1.0);
+
+	glPointSize(15);
+	glLineWidth(5);
 
 	//setup the scene -- LEMBRANDO QUE A DESCRIÇÃO DE UMA CENA PODE VIR DE ARQUIVO(S) DE 
 	// CONFIGURAÇÃO
@@ -146,6 +163,24 @@ void SceneManager::update()
 
 
 	//Chama o passo da simulação Física
+	if (mouseDown)
+	{
+		physics->MouseDown(pw);
+		mouseDown = false;
+	}
+
+	if (mouseUp)
+	{
+		physics->MouseUp(pw);
+		mouseUp = false;
+	}
+
+	if (mouseMove)
+	{
+		physics->MouseMove(pw);
+		mouseMove = false;
+	}
+
 	physics->update();
 
 	//E aqui testamos se houve mudança na câmera 2D (projeção ortográfica)
@@ -209,7 +244,7 @@ void SceneManager::setupScene()
 {
 
 //------------------------------------
-	//Criação do GameObject 1
+	//Criação do GameObject 1 - caixa
 	GameObject *obj = new GameObject;
 	obj->setShader(shader);
 	obj->setAsBox();
@@ -222,7 +257,7 @@ void SceneManager::setupScene()
 	//Definir: forma (box pra sprite), dimensoes (pegar do obj), 
 	//atrito, restituição e densidade,
 	//static ou dynamic
-	b2Body *box = physics->createBox(glm::vec2(0.0, 0.0), obj->getDimensions(), 1.0, 0.5, 0.5, true);
+	b2Body *box = physics->createBox(glm::vec2(0.0, 0.0), obj->getDimensions(), 1.0f, 0.5f, 0.5f, true);
 
 	obj->setPhysics(true);
 	obj->setBody(box);
@@ -231,7 +266,7 @@ void SceneManager::setupScene()
 	objs.push_back(obj);
 
 	//------------------------------------------------
-	//Criação do GameObject 2
+	//Criação do GameObject 2 - chão
 	obj = new GameObject;
 	obj->setShader(shader);
 	obj->setAsBox();
@@ -250,9 +285,11 @@ void SceneManager::setupScene()
 	obj->setBody(box);
 	obj->setAsBox();
 
+	physics->setGround(box);
+
 	objs.push_back(obj);
 	//------------------------------------------------
-	//Criação do GameObject 3
+	//Criação do GameObject 3 - parede esquerda
 	obj = new GameObject;
 	obj->setShader(shader);
 	obj->setAsBox();
@@ -273,7 +310,7 @@ void SceneManager::setupScene()
 
 	objs.push_back(obj);
 	//------------------------------------------------
-	//Criação do GameObject 4
+	//Criação do GameObject 4 - parede direita
 	obj = new GameObject;
 	obj->setShader(shader);
 	obj->setAsBox();
@@ -293,6 +330,32 @@ void SceneManager::setupScene()
 	obj->setAsBox();
 
 	objs.push_back(obj);
+
+	//------------------------------------------------
+	//Criação do GameObject 2 - chão
+	obj = new GameObject;
+	obj->setShader(shader);
+	obj->setAsBox();
+
+	//Geometria, dimensões (escala), posição (translação), orientação (rotação)
+	//Escala: largura e altura (a sprite tem 1x1)
+	obj->setScale(glm::vec3(20.0, 0.5, 1.0));
+
+	//Se é corpo rígido, fazer a criação pelo Physics Manager
+	//Definir: forma (box pra sprite), dimensoes (pegar do obj), 
+	//atrito, restituição e densidade,
+	//static ou dynamic
+	box = physics->createBox(glm::vec2(0.0, 9.0), obj->getDimensions(), 1.0, 0.5, 0.5, false);
+
+	obj->setPhysics(true);
+	obj->setBody(box);
+	obj->setAsBox();
+
+	objs.push_back(obj);
+
+	//-----------------------
+
+
 
 	//Se tiver textura, inicializar o objeto de Sprite
 
@@ -332,4 +395,61 @@ void SceneManager::setupCamera2D()
 	// Get their uniform location
 	GLint projLoc = glGetUniformLocation(shader->Program, "projection");
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+}
+
+void SceneManager::MouseButtonCallback(GLFWwindow* window, int32 button, int32 action, int32 mods)
+{
+
+	double xd, yd;
+	glfwGetCursorPos(window, &xd, &yd);
+	b2Vec2 ps((float)xd, (float)yd);
+
+	// Use the mouse to move things around.
+	if (button == GLFW_MOUSE_BUTTON_1)
+	{
+		pw = convertScreenToWorld(ps);
+		if (action == GLFW_PRESS)
+		{
+			
+			mouseDown = true;
+			
+		}
+
+		if (action == GLFW_RELEASE)
+		{
+			mouseUp = true;
+		}
+	}
+	
+}
+
+void SceneManager::MouseMotionCallback(GLFWwindow*, double xd, double yd)
+{
+	ps.x = (float)xd;
+	ps.y = (float)yd;
+
+	pw = convertScreenToWorld(ps);
+	
+	mouseMove = true;
+
+}
+
+b2Vec2 SceneManager::convertScreenToWorld(const b2Vec2& ps)
+{
+	float w = float(width);
+	float h = float(height);
+	float u = ps.x / w;
+	float v = (h - ps.y) / h;
+
+	float ratio = w / h;
+	b2Vec2 extents(ratio * 10.0f, 10.0f); //xMax e yMax
+	//extents *= m_zoom;
+
+	b2Vec2 lower = - extents;
+	b2Vec2 upper = extents;
+
+	b2Vec2 pw;
+	pw.x = (1.0f - u) * lower.x + u * upper.x;
+	pw.y = (1.0f - v) * lower.y + v * upper.y;
+	return pw;
 }

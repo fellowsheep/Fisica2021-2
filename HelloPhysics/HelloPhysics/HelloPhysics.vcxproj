@@ -135,6 +135,12 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\simpleRenderer.frag" />
+    <None Include="..\shaders\simpleRenderer.vs" />
+    <None Include="..\shaders\transformations.frag" />
+    <None Include="..\shaders\transformations.vs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

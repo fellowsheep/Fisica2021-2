@@ -23,9 +23,13 @@ public:
 
 	void addShader(string vFilename, string fFilename);
 
+
+	static b2Vec2 convertScreenToWorld(const b2Vec2& ps);
 	//GLFW callbacks
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 	static void resize(GLFWwindow* window, int width, int height);
+	static void MouseButtonCallback(GLFWwindow* window, int32 button, int32 action, int32 mods);
+	static void MouseMotionCallback(GLFWwindow*, double xd, double yd);
 
 	void update();
 	void render();
@@ -36,6 +40,7 @@ public:
 	// scene
 	void setupScene();
 	void setupCamera2D();
+
 
 private:
 	
