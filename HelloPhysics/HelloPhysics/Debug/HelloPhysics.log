@@ -1,0 +1,26 @@
+﻿  GameObject.cpp
+  PhysicsManager.cpp
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\HelloPhysics\PhysicsManager.cpp(50,33): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\HelloPhysics\PhysicsManager.cpp(50,22): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+  RigidBody.cpp
+  SceneManager.cpp
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\HelloPhysics\SceneManager.cpp(119,98): warning C4305: 'argumento': truncamento de 'double' para 'float'
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\HelloPhysics\SceneManager.cpp(165,20): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\HelloPhysics\SceneManager.cpp(265,97): warning C4305: 'argumento': truncamento de 'double' para 'float'
+  Source.cpp
+  Gerando Código...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflita com uso de outras bibliotecas; use /NODEFAULTLIB:library
+PhysicsManager.obj : error LNK2001: símbolo externo não resolvido "public: virtual class b2Shape * __thiscall b2PolygonShape::Clone(class b2BlockAllocator *)const " (?Clone@b2PolygonShape@@UBEPAVb2Shape@@PAVb2BlockAllocator@@@Z)
+PhysicsManager.obj : error LNK2001: símbolo externo não resolvido "public: virtual int __thiscall b2PolygonShape::GetChildCount(void)const " (?GetChildCount@b2PolygonShape@@UBEHXZ)
+PhysicsManager.obj : error LNK2019: símbolo externo não resolvido, "public: void __thiscall b2PolygonShape::SetAsBox(float,float)" (?SetAsBox@b2PolygonShape@@QAEXMM@Z), referenciado na função "public: class b2Body * __thiscall PhysicsManager::createBox(struct glm::tvec2<float,0>,struct glm::tvec2<float,0>,float,float,float,bool)" (?createBox@PhysicsManager@@QAEPAVb2Body@@U?$tvec2@M$0A@@glm@@0MMM_N@Z)
+PhysicsManager.obj : error LNK2001: símbolo externo não resolvido "public: virtual bool __thiscall b2PolygonShape::TestPoint(struct b2Transform const &,struct b2Vec2 const &)const " (?TestPoint@b2PolygonShape@@UBE_NABUb2Transform@@ABUb2Vec2@@@Z)
+PhysicsManager.obj : error LNK2001: símbolo externo não resolvido "public: virtual bool __thiscall b2PolygonShape::RayCast(struct b2RayCastOutput *,struct b2RayCastInput const &,struct b2Transform const &,int)const " (?RayCast@b2PolygonShape@@UBE_NPAUb2RayCastOutput@@ABUb2RayCastInput@@ABUb2Transform@@H@Z)
+PhysicsManager.obj : error LNK2001: símbolo externo não resolvido "public: virtual void __thiscall b2PolygonShape::ComputeAABB(struct b2AABB *,struct b2Transform const &,int)const " (?ComputeAABB@b2PolygonShape@@UBEXPAUb2AABB@@ABUb2Transform@@H@Z)
+PhysicsManager.obj : error LNK2001: símbolo externo não resolvido "public: virtual void __thiscall b2PolygonShape::ComputeMass(struct b2MassData *,float)const " (?ComputeMass@b2PolygonShape@@UBEXPAUb2MassData@@M@Z)
+PhysicsManager.obj : error LNK2019: símbolo externo não resolvido, "public: class b2Fixture * __thiscall b2Body::CreateFixture(struct b2FixtureDef const *)" (?CreateFixture@b2Body@@QAEPAVb2Fixture@@PBUb2FixtureDef@@@Z), referenciado na função "public: class b2Body * __thiscall PhysicsManager::createBox(struct glm::tvec2<float,0>,struct glm::tvec2<float,0>,float,float,float,bool)" (?createBox@PhysicsManager@@QAEPAVb2Body@@U?$tvec2@M$0A@@glm@@0MMM_N@Z)
+PhysicsManager.obj : error LNK2019: símbolo externo não resolvido, "public: __thiscall b2World::b2World(struct b2Vec2 const &)" (??0b2World@@QAE@ABUb2Vec2@@@Z), referenciado na função "public: void __thiscall PhysicsManager::initialize(struct b2Vec2)" (?initialize@PhysicsManager@@QAEXUb2Vec2@@@Z)
+PhysicsManager.obj : error LNK2019: símbolo externo não resolvido, "public: class b2Body * __thiscall b2World::CreateBody(struct b2BodyDef const *)" (?CreateBody@b2World@@QAEPAVb2Body@@PBUb2BodyDef@@@Z), referenciado na função "public: class b2Body * __thiscall PhysicsManager::createBox(struct glm::tvec2<float,0>,struct glm::tvec2<float,0>,float,float,float,bool)" (?createBox@PhysicsManager@@QAEPAVb2Body@@U?$tvec2@M$0A@@glm@@0MMM_N@Z)
+PhysicsManager.obj : error LNK2019: símbolo externo não resolvido, "public: void __thiscall b2World::Step(float,int,int)" (?Step@b2World@@QAEXMHH@Z), referenciado na função "public: void __thiscall PhysicsManager::update(void)" (?update@PhysicsManager@@QAEXXZ)
+PhysicsManager.obj : error LNK2019: símbolo externo não resolvido, "public: void __thiscall b2World::ClearForces(void)" (?ClearForces@b2World@@QAEXXZ), referenciado na função "public: void __thiscall PhysicsManager::update(void)" (?update@PhysicsManager@@QAEXXZ)
+..\..\dependencies\box2d-lib\lib\box2d.lib : warning LNK4272: o tipo de máquina da biblioteca 'x64' está em conflito com o tipo de máquina de destino 'x86'
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\Debug\HelloPhysics.exe : fatal error LNK1120: 12 externo não resolvidos

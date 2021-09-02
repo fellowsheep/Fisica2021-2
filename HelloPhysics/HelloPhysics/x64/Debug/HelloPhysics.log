@@ -1,0 +1,9 @@
+﻿  glad.c
+  GameObject.cpp
+  RigidBody.cpp
+  SceneManager.cpp
+C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\HelloPhysics\SceneManager.cpp(119,98): warning C4305: 'argumento': truncamento de 'double' para 'float'
+  Source.cpp
+  Gerando Código...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflita com uso de outras bibliotecas; use /NODEFAULTLIB:library
+  HelloPhysics.vcxproj -> C:\Users\fello\Documents\Unisinos 2021-2\Code\Fisica2021-2\HelloPhysics\x64\Debug\HelloPhysics.exe
